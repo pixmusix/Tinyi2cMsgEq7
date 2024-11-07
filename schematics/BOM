@@ -1,0 +1,30 @@
+# BOM
+
+### Chips
+
+- [AtTiny85 Mircoprocessor]()
+- [MSI's MsgEq7]()
+
+### Connectors
+
+- [TRS Breadboard Jack]()
+- [Piicodev Adapter]()
+
+### Board
+
+- [Makerverse 30 breadboard]
+- [4x M3 plastic screws and spacer]()
+
+### Components
+
+##### Resistors
+- 4 * 10kΩ
+- 2 * 4.6kΩ
+- 2 * 5.6kΩ
+- 1 * 26kΩ
+- 1 * 200kΩ
+
+##### Capacitors
+- 1 * 33pf
+- 1 * 10nf
+- 3 * 0.1uf
