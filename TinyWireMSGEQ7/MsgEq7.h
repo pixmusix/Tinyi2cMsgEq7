@@ -1,12 +1,12 @@
 struct MsgEq7 {
 
   static const int num_bands = 7;
-  int index;
-  int lastIndex;
+  int index;                          // next filter from multiplexor 
+  int lastIndex;                      // last filter from multiplexor
 
-  byte pinStrobe;
-  byte pinReset;
-  byte pinReader;
+  byte pinStrobe;                     // output : multiplexor control
+  byte pinReset;                      // multiplexor reset
+  byte pinReader;                     // filter data from multiplexor
 
   int getVal() {
     delayMicroseconds(36);            // to : output stabilization
@@ -39,9 +39,9 @@ struct MsgEq7 {
   }
 
   int incrementIndex() {
-    lastIndex = index;                // what did we just read
-    index += 1;                       // what we will read next
-    index = index % num_bands;
+    lastIndex = index;                // what did we just read?
+    index += 1;                       // what we will read next?
+    index = index % num_bands;        // we're counting base 7
     return index;
   }
 
@@ -56,18 +56,21 @@ struct MsgEq7 {
   void strobeUp() {
     digitalWrite(pinStrobe, HIGH);
     delayMicroseconds(18);            // ts : strobe pulse width
-    incrementIndex();         // last band has spent; next band ready!
+    incrementIndex();                 // last band has spent 
+    /* next band ready! */
   }
 
   void strobeDown() {
     digitalWrite(pinStrobe, LOW);
     delayMicroseconds(72);            // tss : strobe to strobe
+    /* filter live on output */
   }
 };
 
 MsgEq7 makeMsgEq7(byte rdd, byte str, byte rst) {
   MsgEq7 eq;
-  eq.index = 0;
+
+  /* necessary IO */
   eq.pinStrobe = str;
   eq.pinReset = rst;
   eq.pinReader = rdd;
@@ -76,7 +79,7 @@ MsgEq7 makeMsgEq7(byte rdd, byte str, byte rst) {
   pinMode(eq.pinReset, OUTPUT);
   pinMode(eq.pinReader, INPUT);
 
-  eq.reset();
+  eq.reset();                        // init MsgEq7
 
   return eq;
 }

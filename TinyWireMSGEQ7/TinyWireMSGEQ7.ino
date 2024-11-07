@@ -6,11 +6,11 @@ const byte READ_EQ_PIN = A3;
 const byte STROBE_EQ_PIN = 4;
 const byte EQ_RESET_PIN = 1;
 
-const byte RESET_WORD = 0xB0;
-const byte SET_STROBE_WORD = 0xC0;
-const byte WRITE_CYCLE_WORD = 0xF0;
-const byte WRITE_DELTA_WORD = 0xD0;
-const byte WRITE_IMMEDIATE_WORD = 0xA0;
+const byte RESET_BYTE = 0xB0;             // resets MsgEq7
+const byte SET_STROBE_BYTE = 0xC0;        // force position of multiplexor
+const byte WRITE_CYCLE_BYTE = 0xF0;       // output all filters 1-7.
+const byte WRITE_DELTA_BYTE = 0xD0;       // punch an batch of filters
+const byte WRITE_IMMEDIATE_BYTE = 0xA0;   // punch strobe at index
 
 MsgEq7 eq = makeMsgEq7(READ_EQ_PIN, STROBE_EQ_PIN, EQ_RESET_PIN);
 i2cBuffer i2cOuts = i2cBuffer();
@@ -56,34 +56,40 @@ void writeToi2c(i2cMessage msg) {
 }
 
  void receiveEvent(byte numBytes) {
-  byte command_word;
+  byte instruction;
   byte argument;
   while (0 < TinyWireS.available()) {
+    /*
+    protocol 0b cccc aaaa
+    where :
+      c = action to take
+      a = optional argument
+    */
     byte received = TinyWireS.read();
-    command_word = received & 0xF0;
+    instruction = received & 0xF0;
     argument = received & 0x0F;
   }
 
-  switch (command_word) {
-    case RESET_WORD:
+  switch (instruction) {
+    case RESET_BYTE:
       eq.reset();
       break;
 
-    case SET_STROBE_WORD:
+    case SET_STROBE_BYTE:
       eq.strobeTo(argument);
       break;
 
-    case WRITE_CYCLE_WORD:
+    case WRITE_CYCLE_BYTE:
       for(int b = 0; b < eq.num_bands; b++) {
         punchBandAt(b);
       }
       break;
 
-    case WRITE_IMMEDIATE_WORD:
+    case WRITE_IMMEDIATE_BYTE:
       punchBandAt(argument);
       break;
 
-    case WRITE_DELTA_WORD:
+    case WRITE_DELTA_BYTE:
       for(int b = 0; b < argument; b++) {
         punchNextBand();
       }

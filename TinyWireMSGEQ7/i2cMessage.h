@@ -12,11 +12,14 @@ i2cMessage makei2cMsg(byte msb, byte lsb) {
 
 class i2cBuffer {
 
+  /* a circular buffer for i2cMessages 
+     no overflow protection provided */
+
   protected:
     static const int bufSize = 128;
     i2cMessage postables[bufSize];
-    int writeMark;
-    int readMark;
+    int writeMark;                   // position in postables to write 
+    int readMark;                    // position is postables to read
 
   public:
 
