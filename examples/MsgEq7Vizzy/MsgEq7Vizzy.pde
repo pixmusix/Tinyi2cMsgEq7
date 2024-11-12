@@ -55,7 +55,7 @@ void draw() {
     Spectrum[particleBand].cache();
     
     // We might also make give them a little bleed.
-    float jiggle = random(2) - 1;
+    float jiggle = (random(2) - 1) / 4;
     
     // Lift & jiggle -> a force which we apply to our boid.
     PVector force = new PVector(jiggle, lift);
