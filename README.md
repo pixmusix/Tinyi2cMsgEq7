@@ -73,6 +73,13 @@ void printNextBand() {
 ### Sending Special Instructions
 
 The Tinyi2cMsgEq7 listens for special `Command Bytes`.
+A command byte is split into two 4 bit parts.
+The the four most significant bits point to a instruction and the four least significant bits are an optional argument.
+
+> For example :
+> 0xA3 -> Ouputs the 3rd bandpass filter onto the i2c Bus
+
+(where 0xA is the write_immediate instruction and 0x3 is the argument that specifies the 3rd band.)
 
 ```
 | Command              | Byte | Description                  |
