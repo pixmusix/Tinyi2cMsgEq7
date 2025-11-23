@@ -10,7 +10,7 @@ A Trs 3.5mm jack is used as an audio input.
 ### Writeup
 
 To build your own, you can find my complete writeup kindly hosted by Core-Electronics Australia.
-[link to be added here on publish]()
+[link to be added here on publish](https://core-electronics.com.au/projects/spectral-animations-with-msgeq7/)
 
 ### Dependencies
 
