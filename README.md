@@ -9,8 +9,8 @@ A Trs 3.5mm jack is used as an audio input.
 
 ### Writeup
 
-To build your own, you can find my complete writeup kindly hosted by Core-Electronics Australia.
-[link to be added here on publish](https://core-electronics.com.au/projects/spectral-animations-with-msgeq7/)
+To build your own, you can find my [**complete writeup**](https://core-electronics.com.au/projects/spectral-animations-with-msgeq7/) kindly hosted by Core-Electronics Australia.
+
 
 ### Dependencies
 
@@ -19,9 +19,8 @@ To build your own, you can find my complete writeup kindly hosted by Core-Electr
 ### Basics
 
 The TinyI2cMsgEq7 joins an i2c bus at address 0x08.
-When it first joins the bus it's ready to send data.
-The MsgEq7 IC we are interfacing with has seven analogue bandpass filters which are multiplexed.
-Requesting/reading data, using your favourite library, will return the peak amplitude of the next filter from multiplexor starting at the lowest frequency and working up.
+The [MsgEq7](https://cdn.sparkfun.com/assets/d/4/6/0/c/MSGEQ7.pdf) IC has seven analogue bandpass filters which are multiplexed.
+Requesting data across I2C will return the peak amplitude of the next filter from multiplexor starting at the lowest frequency and working up.
 When the 7th filter is read, it loops back to the first.
 
 ### Return Protocol
@@ -78,7 +77,6 @@ The the four most significant bits point to a instruction and the four least sig
 
 > For example :
 > 0xA3 -> Ouputs the 3rd bandpass filter onto the i2c Bus
-
 (where 0xA is the write_immediate instruction and 0x3 is the argument that specifies the 3rd band.)
 
 ```
@@ -92,7 +90,7 @@ The the four most significant bits point to a instruction and the four least sig
 ```
 
 After a command byte has been transmitted, the requested data can be collected on the next read.
-The Tinyi2cMsgEq7 will transmit the requested data instead of the default behaviour of transmitting a the next.
+The Tinyi2cMsgEq7 will transmit the requested data instead of the default behaviour (next).
 Here is an [example of Command Bytes](https://github.com/pixmusix/Tinyi2cMsgEq7/blob/main/examples/i2c_test/src/main.rs) (raspberry pi)
 
 ### Schematic
